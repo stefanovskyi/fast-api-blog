@@ -1,0 +1,6 @@
+.idea
+fastapi
+__pycache__
+.DS_Store
+venv
+.gradle
