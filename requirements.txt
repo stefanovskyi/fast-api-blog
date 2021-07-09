@@ -7,3 +7,4 @@ asgiref~=3.4.1
 starlette~=0.14.2
 click~=8.0.1
 setuptools~=57.1.0
+SQLAlchemy~=1.4.20
