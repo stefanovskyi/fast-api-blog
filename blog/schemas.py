@@ -6,7 +6,9 @@ class Blog(BaseModel):
     body: str
 
 
-class BlogResponse(Blog):
+class BlogResponse(BaseModel):
+    title: str
+    body: str
 
     class Config:
         orm_mode = True
@@ -18,7 +20,7 @@ class User(BaseModel):
     password: str
 
 
-class UserResponse(User):
+class UserResponse(BaseModel):
     name: str
     email: str
 
