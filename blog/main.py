@@ -66,7 +66,7 @@ def update_blog(blog_id, request: schemas.Blog, db: Session = Depends(get_db)):
     db.commit()
 
 
-@app.post('/user', status_code=status.HTTP_201_CREATED)
+@app.post('/user', status_code=status.HTTP_201_CREATED, response_model=schemas.UserResponse)
 def create_user(request: schemas.User, db: Session = Depends(get_db)):
     hashed_password = Hash.bcrypt(request.password)
 
@@ -77,3 +77,20 @@ def create_user(request: schemas.User, db: Session = Depends(get_db)):
     db.refresh(new_user)
 
     return new_user
+
+
+@app.get('/user', response_model=List[schemas.UserResponse])
+def get_users(db: Session = Depends(get_db)):
+    users = db.query(models.User).all()
+    return users
+
+
+@app.get('/user/{user_id}', response_model=schemas.UserResponse)
+def get_user_by_id(user_id: int, db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='User with id {id} was not found.')
+
+    return user
+
