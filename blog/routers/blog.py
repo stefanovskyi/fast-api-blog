@@ -5,10 +5,12 @@ from sqlalchemy.orm import Session
 from typing import List
 
 
-router = APIRouter()
+router = APIRouter(
+    tags=['blog']
+)
 
 
-@router.post('/blog', status_code=status.HTTP_201_CREATED, tags=['blog'])
+@router.post('/blog', status_code=status.HTTP_201_CREATED)
 def create_blog(request: schemas.Blog, db: Session = Depends(database.get_db)):
     new_blog = models.Blog(title=request.title, body=request.body)
 
@@ -19,13 +21,13 @@ def create_blog(request: schemas.Blog, db: Session = Depends(database.get_db)):
     return new_blog
 
 
-@router.get('/blog', response_model=List[schemas.BlogResponse], tags=['blog'])
+@router.get('/blog', response_model=List[schemas.BlogResponse])
 def get_all_blogs(db: Session = Depends(database.get_db)):
     blogs = db.query(models.Blog).all()
     return blogs
 
 
-@router.get('/blog/{blog_id}', response_model=schemas.BlogResponse, tags=['blog'])
+@router.get('/blog/{blog_id}', response_model=schemas.BlogResponse)
 def get_blog_by_id(blog_id, db: Session = Depends(database.get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == blog_id).first()
 
@@ -35,7 +37,7 @@ def get_blog_by_id(blog_id, db: Session = Depends(database.get_db)):
     return blog
 
 
-@router.delete('/blog/{blog_id}', tags=['blog'])
+@router.delete('/blog/{blog_id}')
 def delete_blog(blog_id, db: Session = Depends(database.get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == blog_id)
 
@@ -46,7 +48,7 @@ def delete_blog(blog_id, db: Session = Depends(database.get_db)):
     db.commit()
 
 
-@router.put('/blog/{blog_id}', status_code=status.HTTP_202_ACCEPTED, tags=['blog'])
+@router.put('/blog/{blog_id}', status_code=status.HTTP_202_ACCEPTED)
 def update_blog(blog_id, request: schemas.Blog, db: Session = Depends(database.get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == blog_id)
 
