@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from fastapi import Depends, status
-from .. import schemas, database, oauth2
-from ..repository import blog_repository
+from blog import schemas, database, oauth2
+from blog.repository import blog_repository
 from sqlalchemy.orm import Session
 from typing import List
 

@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from fastapi import Depends, status, HTTPException
-from .. import schemas, models, database
-from ..hashing import Hash
+from blog import schemas, models, database
+from blog.hashing import Hash
 from sqlalchemy.orm import Session
 from typing import List
 
